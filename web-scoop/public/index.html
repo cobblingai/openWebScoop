@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Professional web content extraction tool that converts web pages to clean Markdown format with screenshot capture capabilities" />
+<meta name="keywords" content="web scraping, content extraction, markdown converter, webpage screenshot, API tool" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<title>WebScoop - Professional Web Content Extraction Tool</title>
+
+<!-- Open Graph Tags -->
+<meta property="og:title" content="WebScoop - Professional Web Content Extraction Tool" />
+<meta property="og:description" content="Transform any webpage into clean, structured content with our professional web extraction service. Features include Markdown conversion and automatic screenshots." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://free.web-scoop.cobbling.ai/" />
+<meta property="og:image" content="https://free.web-scoop.cobbling.ai/og-image.jpg" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="WebScoop - Professional Web Content Extraction Tool" />
+<meta name="twitter:description" content="Transform any webpage into clean, structured content with our professional web extraction service." />
+<meta name="twitter:image" content="https://free.web-scoop.cobbling.ai/og-image.jpg" />
+
+<!-- Schema.org JSON-LD -->
+<!-- Performance Optimizations -->
+<link rel="preconnect" href="https://cdn.tailwindcss.com" />
+<link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
+<link rel="preload" href="/translations.js" as="script" />
+
+<!-- Browser Cache Control -->
+<meta http-equiv="Cache-Control" content="max-age=31536000" />
+
+<!-- Additional SEO Tags -->
+<meta name="robots" content="index, follow" />
+<meta name="googlebot" content="index, follow" />
+<meta name="bingbot" content="index, follow" />
+<meta name="baidu-site-verification" content="your-baidu-verification-code" />
+<meta name="yandex-verification" content="your-yandex-verification-code" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "WebScoop",
+  "applicationCategory": "WebApplication",
+  "operatingSystem": "Web Browser",
+  "description": "Professional web content extraction tool that converts web pages to clean Markdown format with screenshot capture capabilities",
+  "offers": {
+    "@type": "Offer",
+    "category": "Subscription",
+    "url": "https://www.cobbling.ai/",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": [
+    "Automatic extraction of main webpage content",
+    "Conversion to clean Markdown format",
+    "Retrieval of page title and Open Graph tags",
+    "Automatic webpage screenshot capture"
+  ]
+}
+</script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto px-4 py-8">
+<header class="max-w-3xl mx-auto mb-12">
+<div class="text-center mb-6">
+<h1 class="text-4xl font-bold text-gray-800 mb-4" data-i18n="title">WebScoop</h1>
+<p class="text-xl text-gray-600" data-i18n="subtitle">A Powerful Web Content Extraction Tool</p>
+</div>
+<div class="flex justify-end items-center text-gray-600">
+<span data-i18n="powered_by">Powered by</span>
+<a href="https://www.cobbling.ai/" class="text-blue-600 hover:underline ml-1" data-i18n="company_site">Cobbling, Inc.</a>
+<select id="language-selector" class="ml-4 p-2 border rounded text-gray-700">
+<option value="en">English</option>
+<option value="zh-cn">简体中文</option>
+<option value="ja">日本語</option>
+<option value="ko">한국어</option>
+<option value="es">Español</option>
+<option value="fr">Français</option>
+</select>
+</div>
+</header>
+
+<div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+<h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center" data-i18n="instructions">Instructions</h2>
+<p class="mb-4 text-gray-700">
+<span data-i18n="usage_notice">This tool is free to use with a limit of 2 requests per minute. For unlimited usage, please visit</span>
+<a href="https://www.cobbling.ai/" class="text-blue-600 hover:underline" data-i18n="company_site">Cobbling, Inc.</a>
+<span data-i18n="for_details">website for details.</span>
+</p>
+
+<div class="mb-8">
+  <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center" data-i18n="try_it">Try It Now</h3>
+  <form id="demo-form" class="space-y-4">
+    <div>
+      <input type="url" id="url-input" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" data-i18n-placeholder="url_placeholder" required>
+    </div>
+    <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+      <span data-i18n="submit">Submit</span>
+    </button>
+  </form>
+  <div id="result-area" class="mt-6 hidden space-y-4">
+    <div id="screenshot-preview" class="hidden">
+      <h4 class="text-lg font-semibold text-gray-700 mb-2" data-i18n="screenshot_preview">Screenshot Preview</h4>
+      <img id="screenshot-image" class="w-full rounded-lg shadow-lg" alt="Page Screenshot">
+    </div>
+    <div class="bg-white border rounded-lg p-4" style="max-height: 400px; overflow-y: auto;">
+      <pre id="result-content" class="whitespace-pre-wrap text-sm text-gray-700 overflow-x-auto"></pre>
+    </div>
+  </div>
+  <div id="error-message" class="mt-4 hidden text-red-600 text-center"></div>
+</div>
+
+<div class="space-y-6">
+<div class="bg-gray-50 p-6 rounded-lg">
+<h3 class="text-lg font-semibold text-gray-700 mb-3 text-center" data-i18n="api_usage">API Usage</h3>
+<div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto">
+<pre class="text-sm">
+POST /
+Content-Type: application/json
+
+{
+    "url": "https://example.com"
+}</pre>
+</div>
+</div>
+
+<div class="space-y-4">
+<h3 class="text-lg font-semibold text-gray-700 text-center" data-i18n="features">Features</h3>
+<ul class="list-disc list-inside space-y-2 text-gray-600" id="features-list"></ul>
+<p class="mt-4 text-sm text-gray-500 italic" data-i18n="screenshot_notice">Note: Screenshots are stored for 5 days only. Please save them locally if needed for longer use.</p>
+</div>
+
+<div class="space-y-4">
+<h3 class="text-lg font-semibold text-gray-700 text-center" data-i18n="response_format">Response Format</h3>
+<div class="bg-gray-800 text-white p-4 rounded-md overflow-x-auto">
+<pre class="text-sm">
+{
+    "url": "https://example.com",
+    "content": {
+        "title": "Page Title",
+        "og_tags": {
+            "title": "OG Title",
+            "description": "OG Description",
+            "image": "OG Image URL",
+            "url": "OG URL"
+        },
+        "screenshot": "Screenshot URL",
+        "markdown": "Converted Markdown Content"
+    }
+}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Load translations first -->
+<script src="translations.js"></script>
+
+<script>
+// Performance optimized content update with debug logging
+const updateContent = (lang) => {
+  console.log('Updating content for language:', lang);
+  console.log('Available translations:', window.translations);
+  
+  if (!window.translations || !window.translations[lang]) {
+    console.error('Translations not available for language:', lang);
+    return;
+  }
+
+  const translations = window.translations[lang];
+  const elements = document.querySelectorAll('[data-i18n]');
+  
+  requestAnimationFrame(() => {
+    console.log('Updating elements with translations');
+    
+    elements.forEach((element) => {
+      const key = element.getAttribute('data-i18n');
+      if (translations[key]) {
+        element.textContent = translations[key];
+      } else {
+        console.warn('Missing translation for key:', key);
+      }
+    });
+
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+      const key = element.getAttribute('data-i18n-placeholder');
+      if (translations[key]) {
+        element.setAttribute('placeholder', translations[key]);
+      } else {
+        console.warn('Missing translation for placeholder key:', key);
+      }
+    });
+
+    const featuresList = document.getElementById('features-list');
+    if (featuresList && translations.features_list) {
+      const fragment = document.createDocumentFragment();
+      translations.features_list.forEach((feature) => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        fragment.appendChild(li);
+      });
+      featuresList.innerHTML = '';
+      featuresList.appendChild(fragment);
+    }
+
+    document.documentElement.lang = lang;
+    
+    try {
+      localStorage.setItem('preferred_language', lang);
+      console.log('Language preference saved:', lang);
+    } catch (e) {
+      console.warn('Failed to save language preference:', e);
+    }
+  });
+};
+
+// Debounced language switch handler
+const debounce = (fn, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(null, args), delay);
+  };
+};
+
+// Initialize translations only after both DOM and translations are loaded
+const initializeTranslations = () => {
+  if (!window.translations) {
+    console.error('Translations not loaded!');
+    return;
+  }
+
+  try {
+    console.log('Initializing translations...');
+    const savedLang = localStorage.getItem('preferred_language');
+    const browserLang = navigator.language.toLowerCase();
+    const defaultLang = savedLang || (browserLang in window.translations ?? 'en');
+
+    console.log('Default language determined:', defaultLang);
+
+    const selector = document.getElementById('language-selector');
+    if (selector) {
+      selector.value = defaultLang;
+      selector.addEventListener('change', debounce(e => {
+        const newLang = e.target.value;
+        console.log('Language selector changed to:', newLang);
+        updateContent(newLang);
+      }, 150));
+    }
+
+    updateContent(defaultLang);
+  } catch (e) {
+    console.error('Failed to initialize translations:', e);
+  }
+};
+
+// Wait for both DOM and translations to be loaded
+let translationsLoaded = false;
+let domLoaded = false;
+
+const tryInitialize = () => {
+  if (translationsLoaded && domLoaded) {
+    initializeTranslations();
+  }
+};
+
+// Check if translations are loaded
+if (window.translations) {
+  console.log('Translations loaded immediately');
+  translationsLoaded = true;
+} else {
+  window.addEventListener('load', () => {
+    if (window.translations) {
+      console.log('Translations loaded via load event');
+      translationsLoaded = true;
+      tryInitialize();
+    } else {
+      console.error('Translations failed to load');
+    }
+  });
+}
+
+// Check DOM loading state
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded via event');
+    domLoaded = true;
+    tryInitialize();
+  });
+} else {
+  console.log('DOM already loaded');
+  domLoaded = true;
+  tryInitialize();
+}
+
+// Add page load performance metrics
+window.addEventListener('load', () => {
+  if ('performance' in window) {
+    const pageLoadTime = performance.now();
+    console.log(`Page loaded in: ${pageLoadTime}ms`);
+  }
+});
+
+// Demo form handling
+document.getElementById('demo-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const urlInput = document.getElementById('url-input');
+  const resultArea = document.getElementById('result-area');
+  const resultContent = document.getElementById('result-content');
+  const errorMessage = document.getElementById('error-message');
+  const submitButton = e.target.querySelector('button[type="submit"]');
+  
+  if (!resultArea || !resultContent || !errorMessage || !submitButton) return;
+  
+  // Disable button and show loading state
+  submitButton.disabled = true;
+  const originalText = submitButton.innerHTML;
+  submitButton.innerHTML = `<span class="inline-flex items-center">
+    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    Processing...
+  </span>`;
+  
+  // Reset display
+  resultArea.classList.add('hidden');
+  errorMessage.classList.add('hidden');
+  
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: urlInput.value
+      })
+    });
+    
+    if (response.status === 429) {
+      errorMessage.textContent = window.translations[document.documentElement.lang].rate_limit_error;
+      errorMessage.classList.remove('hidden');
+      return;
+    }
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    resultContent.textContent = JSON.stringify(data, null, 2);
+    resultArea.classList.remove('hidden');
+    
+    // Display screenshot if available
+    const screenshotPreview = document.getElementById('screenshot-preview');
+    const screenshotImage = document.getElementById('screenshot-image');
+    if (screenshotPreview && screenshotImage && data.content?.screenshot) {
+      screenshotImage.src = data.content.screenshot;
+      screenshotPreview.classList.remove('hidden');
+    }
+  } catch (err) {
+    console.error('Error:', err);
+    errorMessage.textContent = window.translations[document.documentElement.lang].general_error;
+    errorMessage.classList.remove('hidden');
+  } finally {
+    // Re-enable button and restore original text
+    submitButton.disabled = false;
+    submitButton.innerHTML = originalText;
+  }
+});
+</script>
+</body>
+</html>
